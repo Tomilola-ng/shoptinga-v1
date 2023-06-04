@@ -1,0 +1,74 @@
+     {% extends 'seller/base.html' %}
+      {% block title %}Upload product{% endblock %}
+{% load tailwind_filters %}
+      {% block content %}
+
+      <div class="max-w-lg flex flex-wrap  mx-auto p-6 ">
+    <div class="w-full bg-gray-100 p-6 rounded-xl">
+      <h1 class="mb-6 text-2xl font-bold">Add Product</h1>
+   <form action="." method="post" class="space-y-3" enctype="multipart/form-data">
+     {% csrf_token %}
+     <div>
+  <label class="font-bold text-sm">Name</label>
+       <input type="text" name="name" id="" class="w-full mt-2 py-4 px-6 bg-white rounded-xl " required />
+   <label class="font-bold text-sm">Description</label>
+       <textarea  name="description" id="" class="w-full mt-2 py-4 px-6 bg-white rounded-xl " ></textarea>
+  <label class="font-bold block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Thumbnail/Cover image</label>
+<input class="font-bold block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-yellow-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" accept="image/*" name="thumbnail"type="file">
+<p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG (MAX. 400 x 400px).</p>
+<label class="font-bold block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Image</label>
+<input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-yellow-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" accept="image/*" name="image"type="file">
+<p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG (MAX. 400 x 400px).</p>
+
+    <hr />
+    <label for="input-group-1" class="block mb-2 text-sm font-bold text-gray-900 dark:text-white">Price</label>
+<div class="relative mb-6">
+  <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+</svg>
+  </div>
+  <input type="text" id="input-group-1" name="price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="23">
+</div>
+       <label class="font-bold mt-5 text-sm">Content</label>
+<div class="flex items-center justify-center w-full">
+    <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+            <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">PDF or ZIP Max(100mb)</p>
+          
+        </div>
+        <input id="dropzone-file" type="file" name="content" class="hidden" onchange="showFileName()"/>
+          <p id="selected-file-name" class="absolute inset-y-0 rigth-0 flex items-center pr-4 text-gray-700"></p>
+    </label>
+</div> 
+   
+      {% if form.errors %}
+     {% for field in form %}
+     {% for error in field.errors%}
+     <div class="p-6 bg-red-200 text-red-800 rounded-xl ">
+       <p>{{ error|escape }}</p>
+     </div>
+     {% endfor %}
+     {% endfor %}
+     {% for error in form.non_fields_errors %}
+ <div class="p-6 bg-red-200 text-red-800 rounded-xl ">
+       <p>{{ error|escape }}</p>
+     </div>
+     {% endfor %}
+     {% endif %}
+     <div>
+    <button class="mt-6 inline-block px-8 py-4 rounded-xl bg-yellow-500 text-white hover:bg-yellow-700">Upload</button>
+  </div>
+   </form>
+    </div>
+      </div>
+      {% endblock %}
+      <script>
+      function showFileName(input) {
+        var input = document.getElementById('dropzone-file');
+        var fileName = input.value.split('\\').pop();
+          document.getElementById('selected-file-name').textContent = fileName;
+        }
+      </script>

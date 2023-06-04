@@ -1,0 +1,82 @@
+      {% extends 'seller/base.html' %}
+      {% block title %}Create Creator Account{% endblock %}
+      {% block content %}
+
+   
+      <div class="max-w-6xl flex flex-wrap items-start mx-auto py-2 px-6 xl:px-0">
+<form class="" action="." method="post" enctype="multipart/form-data" >
+            {% csrf_token %}
+        <div class="product w-full lg:w-3/4">
+          <h1 class="mb-5 text-3xl">Signup For A Creator Account</h1>
+          
+          <div class="w-full pr-6">
+            <div class="mb-6 p-6 bg-gray-100 rounded-xl">
+  <div class="mb-4">
+
+<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Brand logo/image</label>
+<input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-yellow-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" accept="image/*" name="logo"type="file">
+<p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG (MAX. 800x400px).</p>
+
+              </div>
+  <div class="mb-4">
+                <label class="inline-block mb-2">Unique / Brand Name </label>
+                <input type="text" name="name" class="w-full p-5 rounded-xl" value="" />
+              </div>
+  <div class="mb-4">
+                <label class="inline-block mb-2">Description</label>
+                <p class="text-sm mt-1 mb-1 text-gray-400">*Describe yourself/Brand,who you are, what you do/sell with just 50 characters* </p>
+                <input type="text" name="description" class="w-full p-10 rounded-xl" value="" />
+              </div>
+<label for="id_category" class="block   mb-2">Category that suites your Brand most<span class="asteriskField">*</span> </label> <div class="mb-3"> <div class="relative"><select class="bg-white focus:outline-none border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal text-gray-700" name="category"> <option value="">---------</option>
+> <option value="E-books">E-books</option> 
+<option value="Online courses">Online Courses</option> 
+<option value="Digital Arts/Nfts">Digital Arts/Nft's</option> 
+<option value="Softwares">Softwares</option> 
+<option value="Other">Other</option>
+
+</select><div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"> <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"></path> </svg> </div></div>
+       
+            </div>
+  <div class="mb-6 p-6 bg-gray-100 rounded-xl">
+              <h2 class="mb-5 uppercase text-lg">Contact information</h2>
+              <div class="mb-4">
+                <label class="inline-block mb-2">Email</label>
+                <input type="email" name="email" class="w-full p-5 rounded-xl" value="{{ request.user.email }}" />
+              </div>
+                <div class="mb-4">
+                <label class="inline-block mb-2">Country</label>
+                <input type="text" name="country" class="w-full p-5 rounded-xl" placeholder="Nigeria" />
+              </div>
+   <div class="mb-4">
+                <label class="inline-block mb-2">Phone</label>
+                                <p class="text-sm mt-1 mb-1 text-gray-400">your mobile number should include your country code e.g 2349060620279</p>
+                <input type="phone" name="phone" class="w-full p-5 rounded-xl" value="" />
+              </div>
+            </div>
+          </div>
+        </div>
+    <div>
+  <div class="mb-6 p-6 bg-gray-100 rounded-xl">
+              <h2 class="mb-5 uppercase text-lg">Payment information</h2>
+                              <p class="text-sm mt-1 mb-1 text-gray-400">*You are expected to only fill one  payment info, if you want to recieve your earnings in crypto fill the wallet address field ,but if you want to recieve your earnings in fiat money fill the bank details field*</p>
+               <div class="mb-4">
+                <label class="inline-block mb-2">Crypto wallet address</label>
+                <input type="text" name="w_address" class="w-full p-5 rounded-xl" value="" />
+              </div>
+  <p class="text-sm mt-1 mb-1 text-gray-400">*we advice you put your business/shop correct bank details.* </p>
+  <div class="mb-4">
+                <label class="inline-block mb-2">Bank name</label>
+                <input type="text" name="bank_name" class="w-full p-5 rounded-xl" value="" />
+              </div>
+ <div class="mb-4">
+                <label class="inline-block mb-2">Account no</label>
+                <input type="number" name="bank_acct" class="w-full p-5 rounded-xl" value="" />
+              </div>
+            </div>
+            
+          <button class="inline-block px-8 py-4 rounded-xl bg-yellow-500 hover:bg-yellow-700">Submit</button>
+          
+        </div>
+        </form>
+        </div>
+        {% endblock %}

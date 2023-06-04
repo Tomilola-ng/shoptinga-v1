@@ -1,0 +1,55 @@
+      {% extends 'seller/base.html' %}
+      {% block title %}Purchased products{% endblock %}
+      {% block content %}
+
+   
+      
+      <div class="max-w-6xl mx-auto flex flex-wrap py-6 px-6 xl:px-0">
+        <h1 class="text-2xl font-bold w-full my-2"> Products Purchased</h1>
+        <br>
+         {% for d in data %}
+      
+          
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+                    Product name
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Quantity
+                </th>
+                <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+                    Category
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Price
+                </th>
+            </tr>
+        </thead>
+        {% for i in d %}
+        <tbody>
+            <tr>
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
+                    {{ i.product.name }}
+                </th>
+                <td class="px-6 py-4">
+                    {{ i.quantity }}
+                </td>
+                <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+                    {{ i.product.category }}
+                </td>
+                <td class="px-6 py-4">
+                    ${{ i.product.price }}
+                </td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+</div>
+        
+    {% endfor %}
+        </div>
+ 
+        {% endblock %}

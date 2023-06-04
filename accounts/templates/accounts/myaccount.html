@@ -1,0 +1,92 @@
+  {% extends 'core/base.html' %}
+         {% load static %}
+      {% block title %}{{ request.user.get_full_name }}{% endblock %}
+   
+      {% block content %}
+
+      <div class="max-w-lg  mx-auto p-6 ">
+        <h1 class="mb-5 text-3xl font-bold"> My account</h1>
+    
+<div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mb-6">
+    <div class="flex justify-end px-4 pt-4">
+        <button id="dropdownButton" dat-dropdown-toggle="dropdown" class="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5" type="button">
+            <span class="sr-only">Open dropdown</span>
+            <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"></path></svg>
+        </button>
+        <!-- Dropdown menu -->
+        <div id="dropdown" class="z-10 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+            <ul class="py-2" aria-labelledby="dropdownButton">
+            <li>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Edit</a>
+            </li>
+            <li> 
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Export Data</a>
+            </li>
+            <li>
+                <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
+            </li>
+            </ul>
+        </div>
+    </div>
+    <div class="flex flex-col items-center pb-10">
+        <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQt7GOsCGr4EV36S5TVLo-iyRqxE4vp8mRTOA&usqp=CAU" alt="Bonnie image"/>
+        <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">{{ request.user.get_full_name }}</h5>
+        <span class="text-sm text-gray-500 dark:text-gray-400">{{ request.user.username }} </span>
+        <span class="text-sm text-gray-500 dark:text-gray-400">{{ request.user.email }} </span>
+        <div class="flex mt-4 space-x-3 md:mt-6">
+            <a href="{% url 'edit_myaccount'%}"class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Edit profile</a>
+            <a href="{% url 'two_factor:profile'%}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">Enable 2FA</a>
+            <a href="{% url 'sellers' %}"class="inline-flex items-center px-4 py-2 text-sm font-medium bg-white border border-gray-300 rounded-lg hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+              {% if user.shops %} MY Store {% else %} Switch to Creator {% endif %}
+            </a>
+
+      
+      </div>
+    </div>
+</div>
+
+        <div>
+
+ </div>
+        <hr />
+        
+        <h2 class="my-6 text-2xl font-bold">My purchases</h2>
+
+        {% for order in request.user.orders.all %}
+                {% if order.paid == True %}
+        <div class="w-full mb-6 p-6 flex flex-wrap bg-gray-100 rounded-xl">
+          <div class="mb-6 flex justify-between">
+           <a href="#">order id: {{ order.id }}</a>
+          </div>
+          <div class="mb-6 w-full">
+            {% for item in order.items.all %}
+            <div class="product mb-6 flex pr-6">
+              <a class="w-1/4" href="{% url 'product' item.product.slug %}">
+                <img class="hover:shadow-lg rounded-xl" src="{{ item.product.thumbnail.url }}" alt="" />
+              </a>
+              <div class="w-3/4 pl-6">
+                <div class="flex justify-between">
+                  <a class="text-lg" href=="{% url 'product' item.product.slug %}">{{ item.product.name }}</a>
+                  <p class="mb-6 pt-1 text-gray-400">${{ item.get_total_price }}</p>
+                </div>
+                <hr />
+                <div class="mt-6">
+                  Quantity:{{ item.quantity }}
+                </div>
+   <a class="mt-6 inline-block px-8 py-4 rounded-xl bg-yellow-500 text-white hover:bg-yellow-700 mb-6 w-full text-center text-2xl text-bold" 
+   href="{{ item.product.content.url }}"> Access Purchase</a>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          <div>
+            <p class="text-lg">Date: {{ order.created_at }}</p>
+            <p class="text-lg">Total: ${{ order.get_total_price }}</p>
+          </div>
+        </div>
+
+                {% endif %}
+        {% endfor %}
+
+        </div>
+        {% endblock %}

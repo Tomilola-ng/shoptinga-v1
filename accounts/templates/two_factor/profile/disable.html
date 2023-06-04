@@ -1,0 +1,17 @@
+{% extends "../_base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <h1 class="text-4xl font-bold">{% block title %}{% trans "Disable Two-factor Authentication" %}{% endblock %}</h1>
+  <div class="bg-red-200">
+    
+  <p>{% blocktrans trimmed %}You are about to disable two-factor authentication. This
+    weakens your account security, are you sure?{% endblocktrans %}</p>
+  <form method="post">
+    {% csrf_token %}
+    <table>{{ form.as_table }}</table>
+    <button class="mt-5 bg-red-400 px-6 py-4 text-white rounded-xl hover:bg-red-200"
+            type="submit">{% trans "Disable" %}</button>
+  </form>
+  </div>
+{% endblock %}

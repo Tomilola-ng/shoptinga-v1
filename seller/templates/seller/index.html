@@ -1,0 +1,40 @@
+      {% extends 'seller/base.html' %}
+      {% block title %}Creator{% endblock %}
+      {% block content %}
+
+   
+      
+      <div class="max-w-6xl mx-auto flex flex-wrap py-6 px-6 xl:px-0">
+
+   <h2 class="mb-5 uppercase text-lg font-bold">Creator Account</h2>
+      {% if not shops %}
+  <div class="mb-6 p-6 bg-gray-100 rounded-xl">
+<h2 class="mb-5 uppercase text-lg">Create a creator account</h2>
+<p>You are not a creator </p>
+     <a class="mt-6 inline-block px-8 py-4 rounded-xl bg-yellow-500 text-white hover:bg-yellow-700" href="/seller/create-shop/" class="card-link">Create</a>
+    </div>
+      {% endif %}
+          {% for s in shops.all %}
+
+   <div class="w-full  p-6">
+            <img class="w-full rounded-xl hover:shadow-lg" src="{{ s.logo.url }}" alt="" />
+          <div class="pt-3 flex items-center justify-between">
+            <p class="text-medium">{{ s.name }}{% if s.approved == True %}<span class="text-yellow-500"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+  <path fill-rule="evenodd" d="M8.603 3.799A4.49 4.49 0 0112 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 013.498 1.307 4.491 4.491 0 011.307 3.497A4.49 4.49 0 0121.75 12a4.49 4.49 0 01-1.549 3.397 4.491 4.491 0 01-1.307 3.497 4.491 4.491 0 01-3.497 1.307A4.49 4.49 0 0112 21.75a4.49 4.49 0 01-3.397-1.549 4.49 4.49 0 01-3.498-1.306 4.491 4.491 0 01-1.307-3.498A4.49 4.49 0 012.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 011.307-3.497 4.49 4.49 0 013.497-1.307zm7.007 6.387a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
+</svg>
+</span>{% endif %}</p>
+
+          </div>
+          <p class="pt-1 text-gray-400">{{ s.description }} </p>
+        </div>
+     {% if s.approved == False %}
+<p class="mt-6 text-green-500 inline-block">Approval pending......</p>
+{% else %}
+                    <a class="mt-6 inline-block px-8 py-4 rounded-xl bg-yellow-500 text-white hover:bg-yellow-700" href="/seller/shop/{{ s.shop_id }}/" class="card-link">Go to dashbord <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+</svg>
+</span></a>
+                    {% endif %}
+      {% endfor %}
+        </div>
+        {% endblock %}

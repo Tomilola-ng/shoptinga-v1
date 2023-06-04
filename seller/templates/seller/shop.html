@@ -1,0 +1,97 @@
+      {% extends 'seller/base.html' %}
+      {% block title %}{{ shop.name }}{% endblock %}
+      {% block content %}
+
+   
+      
+      <div class="max-w-6xl mx-auto flex flex-wrap py-6 px-6 xl:px-0">
+
+   <h2 class="mb-5 uppercase text-xl font-bold">Welcome to dashboard, {{ shop.name }}</h2>
+   <div class="mb-3 w-full rounded-xl p-6 mt-4 bg-gray-100 text-center">
+     <h3 class="text-2xl font-bold">Total earnings:</h3>
+       <h3 class="text-xl font-bold">${{ shop.balance|floatformat:2 }}</h3>
+   </div>
+   <hr>
+   <div class="mt-3">
+   <a class="text-center font-bold  mt-6 inline-block p-5 mb-3 rounded-xl bg-yellow-500 text-white hover:bg-yellow-700" href="/seller/shop/{{ shop.shop_id }}/add-item" class="card-link">Upload product </a>
+   
+          <h3 class="mb-3 text-center text-2xl font-bold">Your products</h3>
+              <a class="text-center font-bold w-full mt-6 inline-block p-10 mb-3 rounded-xl bg-yellow-500 text-white hover:bg-yellow-700" href="/seller/shop/{{ shop.shop_id }}/orders" class="card-link">View Products Purchased</a>
+            
+
+        
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+                    Product name
+                </th>
+                <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-blue-800">
+                    Share 
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Approved
+                </th>
+                <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+                    Category
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Price
+                </th>
+                  <th scope="col" class="px-6 py-3">
+                    Edit
+                </th>
+  <th scope="col" class="px-6 py-3">
+                    Delete
+                </th>
+            </tr>
+        </thead>
+                {% for product in products %}
+        <tbody>
+            <tr>
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
+                    {{ product.name }}
+                </th>
+                <td class="px-6 py-4 bg-blue-800">
+                    <button onclick="shareLink()">
+                        Share Products
+                  </button>
+                  <script>
+                    function shareLink(li_nk, msg = "Check out my products") {
+                        if (navigator.share) {
+                            navigator.share({
+                                title: "Shoptinga",
+                                text: msg,
+                                url: '127.0.0:8000/shop/{{ product.slug }}'
+                            });
+                        } else {
+                            window.location.href = `https://api.whatsapp.com/send?text=${msg} : ${li_nk}`;
+                        }
+                    }
+                  </script>
+                </td>
+                <td class="px-6 py-4">
+                    {{ product.approved }}
+                </td>
+                <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+                    {{ product.category }}
+                </td>
+                <td class="px-6 py-4">
+                    ${{ product.price }}
+                </td>
+                                <td class="px-6 py-4 text-right">
+                    <a href="/seller/shop/{{ shop.shop_id }}/{{ product.slug }}/update" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                </td>
+                                                <td class="px-6 py-4 text-right">
+                    <a href="/seller/shop/{{ shop.shop_id }}/{{ product.slug }}/delete" class="font-medium text-red-600 dark:text-blue-500 hover:underline">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+                {% endfor %}
+    </table>
+</div>
+
+   </div>
+   </div>
+   {% endblock %}

@@ -1,0 +1,79 @@
+{% extends "two_factor/_base.html" %}
+{% load i18n %}
+{% load two_factor_tags %}
+
+{% block extra_media %}
+  {{ form.media }}
+{% endblock %}
+
+{% block sub_content %}
+   <div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700 mt">
+              {% if form.errors %}
+     {% for field in form %}
+     {% for error in field.errors%}
+     <div class="p-6 bg-red-200 text-red-800 rounded-xl ">
+       <p>{{ error|escape }}</p>
+     </div>
+     {% endfor %}
+     {% endfor %}
+     {% for error in form.non_fields_errors %}
+ <div class="p-6 bg-red-200 text-red-800 rounded-xl ">
+       <p>{{ error|escape }}</p>
+     </div>
+     {% endfor %}
+     {% endif %}
+  <h1>{% block title %}{% trans "Login" %}{% endblock %}</h1>
+
+  {% if wizard.steps.current == 'auth' %}
+    <p>{% blocktrans %}Enter your credentials.{% endblocktrans %}</p>
+  {% elif wizard.steps.current == 'token' %}
+    <p>{{ device|as_verbose_action }}</p>
+  {% elif wizard.steps.current == 'backup' %}
+    <p>{% blocktrans trimmed %}Use this form for entering backup tokens for logging in.
+      These tokens have been generated for you to print and keep safe. Please
+      enter one of these backup tokens to login to your account.{% endblocktrans %}</p>
+  {% endif %}
+
+  <form action="" method="post">{% csrf_token %}
+    {% include "two_factor/_wizard_forms.html" %}
+
+    {# hidden submit button to enable [enter] key #}
+    <input type="submit" value="" hidden />
+    <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
+
+            Not registered? <a href="{%url 'signup' %}" class="text-blue-700 hover:underline dark:text-blue-500">Create account</a>
+
+        </div>
+
+    {% if other_devices %}
+      <p>{% trans "Or, alternatively, use one of your other authentication methods:" %}</p>
+      <p>
+        {% for other in other_devices %}
+        <button name="challenge_device" value="{{ other.persistent_id }}"
+                class="w-full text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800" type="submit">
+          {{ other|as_action }}
+        </button>
+      {% endfor %}</p>
+    {% endif %}
+
+    {% include "two_factor/_wizard_actions.html" %}
+  </form>
+
+  {% block 'backup_tokens' %}
+    {% if backup_tokens %}
+       <hr>
+       <div class="backup_tokens_form">
+       <form action="" method="post">
+           {% csrf_token %}
+            <p>{% trans "As a last resort, you can use a backup token:" %}</p>
+            <p>
+                <button name="wizard_goto_step" type="submit" value="backup"
+                    class="btn btn-sm btn-secondary btn-block">{% trans "Use Backup Token" %}</button>
+            </p>
+       </form>
+        
+       </div>
+       </div>
+    {% endif %}
+  {% endblock %}
+{% endblock %}

@@ -1,0 +1,47 @@
+      {% extends 'core/base.html' %}
+      {% block title %}Edit account{% endblock %}
+   
+      {% block content %}
+
+      <div class="max-w-lg  mx-auto p-6 ">
+        <h1 class="mb-5 text-3xl"> Edit account</h1>
+        <form class="space-y-6" action="." method="post">
+          {% csrf_token %}
+          <div>
+          <label>First name</label>
+          <input type="text" class="w-full mt-2 py-4 px-6 bg-gray-100 rounded-xl"name="first_name" value="{{ request.user.first_name }}" />
+          </div>
+          <div>
+     <label>Last name</label>
+          <input type="text" class="w-full mt-2 py-4 px-6 bg-gray-100 rounded-xl"name="last_name" value="{{ request.user.last_name }}" />
+          </div>
+          <div>
+     <label>Username</label>
+          <input type="text" class="w-full mt-2 py-4 px-6 bg-gray-100 rounded-xl"name="username" value="{{ request.user.username }}" />
+          </div>
+          <div>
+     <label>Email</label>
+          <input type="text" class="w-full mt-2 py-4 px-6 bg-gray-100 rounded-xl"name="email" value="{{ request.user.email }}" />
+          </div>
+      <div>
+          <button class="py-4 px-6 bg-yellow-500 rounded-xl text-white">Submit</button>
+        </div>
+        </form>
+  
+     {% if form.errors %}
+     {% for field in form %}
+     {% for error in field.errors%}
+     <div class="p-6 bg-red-200 text-red-800 rounded-xl ">
+       <p>{{ error|escape }}</p>
+     </div>
+     {% endfor %}
+     {% endfor %}
+     {% for error in form.non_fields_errors %}
+ <div class="p-6 bg-red-200 text-red-800 rounded-xl ">
+       <p>{{ error|escape }}</p>
+     </div>
+     {% endfor %}
+     {% endif %}
+     <div>
+        </div>
+        {% endblock %}
